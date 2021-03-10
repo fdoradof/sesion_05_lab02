@@ -1,0 +1,91 @@
+---
+- name: "Laboratorio de Bucles"
+  hosts: nodo_02
+  vars:
+
+    archivos:
+      - arch_01
+      - arch_02
+      - arch_03
+      - arch_04
+      - arch_05
+  
+  vars_files:
+    vars/default.yml
+
+  tasks:
+    - name: "Instalacion de la paqueteria de compresion y descompresion"
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - zip
+        - unzip
+        - gzip
+        - bzip2
+
+    - name: "Creacion del directorio para los archivos"
+      file:
+        path: /tmp/archivos_lab02
+        recurse: yes
+        state: directory
+    
+    - name: "Creacion de los archivos"
+      file: 
+        path: "/tmp/archivos_lab02/{{ item }}"
+        state: touch
+      loop: "{{ archivos }}"
+    
+    - name: "Particionado de discos"
+      parted:
+        device: "{{ item.value.dispositivo }}"
+        number: 1
+        flags: [ lvm ]
+        state: present
+      loop: "{{ discos|dict2items }}"
+    
+    - name: "Creacion de los VG"
+      lvg:
+        vg: "{{ item.value.volum_group }}"
+        pvs: "{{ item.value.volumen_fisico }}"
+        pesize: "{{ item.value.tamano_vg }}"
+      loop: "{{ discos|dict2items }}"
+
+    - name: "Creacion de los LV"
+      lvol:
+        vg: "{{ item.value.volum_group }}"
+        lv: "{{ item.value.nombre_lv }}"
+        size: "{{ item.value.tamano_lv}}"
+        state: present
+      loop: "{{ discos|dict2items }}"
+    
+    - name: "Creacion de los fs"
+      filesystem:
+        fstype: "{{ item.value.formato_fs}}"
+        dev: "/dev/mapper/{{ item.value.volum_group }}-{{ item.value.nombre_lv }}"
+      loop: "{{ discos|dict2items }}"
+    
+    - name: "Creacion ruta de montaje"
+      file:
+        path: "{{ item.value.punto_montaje}}"
+        mode: 0765
+        recurse: yes
+        state: directory
+      loop: "{{ discos|dict2items }}"
+    
+    - name: "Montaje de los discos"
+      mount:
+        path: "{{ item.value.punto_montaje}}"
+        src: /dev/mapper/{{ item.value.volum_group }}-{{ item.value.nombre_lv }}
+        fstype: "{{ item.value.formato_fs}}"
+        state: present
+      loop: "{{ discos|dict2items }}"
+    
+    - name: "Compresion de los ficheros"
+      archive:
+        path: "/tmp/archivos_lab02/{{ item }}"
+        dest: "/mnt/disco02/todos_archivos.zip"
+        format: zip
+      loop:
+        - "{{ archivos }}"
+    

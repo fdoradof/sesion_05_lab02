@@ -1,0 +1,19 @@
+discos:
+  disco_01:
+    dispositivo: /dev/sdb
+    volum_group: vg01
+    volumen_fisico: /dev/sdb1
+    tamano_vg: "1024M"
+    formato_fs: xfs
+    tamano_lv: "80%VG"
+    punto_montaje: "/mnt/disco01"
+    nombre_lv: lv01
+  disco_02:
+    dispositivo: /dev/sdc
+    volum_group: vg02
+    volumen_fisico: /dev/sdc1
+    tamano_vg: "2000M"
+    formato_fs: xfs
+    tamano_lv: "100%VG"
+    punto_montaje: "/mnt/disco02"
+    nombre_lv: lv02
