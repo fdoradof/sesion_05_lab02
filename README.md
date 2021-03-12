@@ -14,21 +14,21 @@ Nota: Se deben crear y usar todos los registros y variables que creemos necesari
 - En este fichero declararemos el siguiente array de diccionarios:
 	discos:
 	  disco_01:
-      dispositivo: /dev/sdb
-      volum_group: vg01
-      volumen_fisico: /dev/sdb1
-      tamaño_vg: "1024M"
-      formato_fs: xfs
-      tamaño_lv: "80%VG"
-      punto_montaje: "/mnt/disco01"
-	  disco_02:
-      dispositivo: /dev/sdc
-      volum_group: vg02
-      volumen_fisico: /dev/sdc1
-      tamaño_vg: "2000M"
-      formato_fs: xfs
-      tamaño_lv: "100%VG"
-      punto_montaje: "/mnt/disco02"
+	  dispositivo: /dev/sdb
+	  volum_group: vg01
+	  volumen_fisico: /dev/sdb1
+	  tamaño_vg: "1024M"
+	  formato_fs: xfs
+	  tamaño_lv: "80%VG"
+	  punto_montaje: "/mnt/disco01"
+	disco_02:
+	  dispositivo: /dev/sdc
+	  volum_group: vg02
+	  volumen_fisico: /dev/sdc1
+	  tamaño_vg: "2000M"
+	  formato_fs: xfs
+	  tamaño_lv: "100%VG"
+	  punto_montaje: "/mnt/disco02"
 
 - Dentro del playbook declararemos las siguientes variables:
 	archivos:
