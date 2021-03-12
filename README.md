@@ -32,11 +32,11 @@ Nota: Se deben crear y usar todos los registros y variables que creemos necesari
 
 - Dentro del playbook declararemos las siguientes variables:
 	archivos:
-	  - arch_01
-	  - arch_02
-    - arch_03
-    - arch_04
-	  - arch_05
+	- arch_01
+	- arch_02
+	- arch_03
+	- arch_04
+	- arch_05
 - Debemos implementar los plays necesarios para llevar a cabo las siguientes tareas:
 	- Instalaremos la siguiente paquetería usando un bucle
       zip
